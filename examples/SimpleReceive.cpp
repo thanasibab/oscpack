@@ -57,6 +57,17 @@ protected:
                 
                 std::cout << "received '/test2' message with arguments: "
                     << a1 << " " << a2 << " " << a3 << " " << a4 << "\n";
+            // Integration with Sensors2Osc
+            }else if( std::strcmp( m.AddressPattern(), "/linearacceleration" ) == 0 ){
+                osc::ReceivedMessage::const_iterator arg = m.ArgumentsBegin();
+                float a1 = (arg++)->AsFloat();
+                float a2 = (arg++)->AsFloat();
+                float a3 = (arg++)->AsFloat();
+                if( arg != m.ArgumentsEnd() )
+                    throw osc::ExcessArgumentException();
+                
+                std::cout << "received '/linearacceleration' message with arguments: "
+                    << a1 << " " << a2 << " " << a3 << " " << "\n";
             }
         }catch( osc::Exception& e ){
             // any parsing errors such as unexpected argument types, or 
